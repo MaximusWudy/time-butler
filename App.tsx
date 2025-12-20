@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ActivityType, TimeLog } from './types';
-import { getLogs, saveLogs, getCurrentLog, saveCurrentLog } from './services/storageService';
+import { getLogs, saveLog, getCurrentLog, saveCurrentLog } from './services/storageService';
 import StatusButton from './components/StatusButton';
 import TimerDisplay from './components/TimerDisplay';
 import { Charts } from './components/Charts';
@@ -14,17 +14,12 @@ const App: React.FC = () => {
 
   // Initialize data
   useEffect(() => {
-    setLogs(getLogs());
+    getLogs().then(setLogs);
     const savedCurrent = getCurrentLog();
     if (savedCurrent) {
       setCurrentLog(savedCurrent);
     }
   }, []);
-
-  // Update storage whenever logs change
-  useEffect(() => {
-    saveLogs(logs);
-  }, [logs]);
 
   // Update storage whenever current log changes
   useEffect(() => {
@@ -45,6 +40,7 @@ const App: React.FC = () => {
         duration: Math.floor((now - currentLog.startTime) / 1000)
       };
       
+      saveLog(finishedLog);
       setLogs(prev => [finishedLog, ...prev]);
     }
 
@@ -68,6 +64,7 @@ const App: React.FC = () => {
         endTime: now,
         duration: Math.floor((now - currentLog.startTime) / 1000)
       };
+      saveLog(finishedLog);
       setLogs(prev => [finishedLog, ...prev]);
       setCurrentLog(null);
     }

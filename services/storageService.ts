@@ -1,21 +1,32 @@
 import { TimeLog, UserSettings } from '../types';
-import { STORAGE_KEYS } from '../constants';
+import { STORAGE_KEYS, MOCK_USER_ID } from '../constants';
 
-export const getLogs = (): TimeLog[] => {
+const API_URL = 'http://localhost:3000/api';
+
+export const getLogs = async (): Promise<TimeLog[]> => {
   try {
-    const data = localStorage.getItem(STORAGE_KEYS.LOGS);
-    return data ? JSON.parse(data) : [];
+    const response = await fetch(`${API_URL}/logs/${MOCK_USER_ID}`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch logs');
+    }
+    return await response.json();
   } catch (e) {
     console.error('Failed to load logs', e);
     return [];
   }
 };
 
-export const saveLogs = (logs: TimeLog[]): void => {
+export const saveLog = async (log: TimeLog): Promise<void> => {
   try {
-    localStorage.setItem(STORAGE_KEYS.LOGS, JSON.stringify(logs));
+    await fetch(`${API_URL}/logs`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ userId: MOCK_USER_ID, log }),
+    });
   } catch (e) {
-    console.error('Failed to save logs', e);
+    console.error('Failed to save log', e);
   }
 };
 

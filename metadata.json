@@ -1,0 +1,5 @@
+{
+  "name": "Time Butler",
+  "description": "An intelligent time-tracking assistant that helps you monitor daily activities, visualize habits with charts, and receive AI-powered productivity advice.",
+  "requestFramePermissions": []
+}

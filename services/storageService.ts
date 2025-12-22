@@ -1,15 +1,21 @@
 import { TimeLog, UserSettings } from '../types';
 import { STORAGE_KEYS, MOCK_USER_ID } from '../constants';
+import { initializeApp } from 'firebase/app';
+import { getFirestore, collection, getDocs, addDoc } from 'firebase/firestore';
+import { firebaseConfig } from './firebaseConfig';
 
-const API_URL = 'http://localhost:3000/api';
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 export const getLogs = async (): Promise<TimeLog[]> => {
   try {
-    const response = await fetch(`${API_URL}/logs/${MOCK_USER_ID}`);
-    if (!response.ok) {
-      throw new Error('Failed to fetch logs');
-    }
-    return await response.json();
+    const querySnapshot = await getDocs(collection(db, 'users', MOCK_USER_ID, 'logs'));
+    const logs: TimeLog[] = [];
+    querySnapshot.forEach((doc) => {
+      logs.push(doc.data() as TimeLog);
+    });
+    return logs;
   } catch (e) {
     console.error('Failed to load logs', e);
     return [];
@@ -18,13 +24,7 @@ export const getLogs = async (): Promise<TimeLog[]> => {
 
 export const saveLog = async (log: TimeLog): Promise<void> => {
   try {
-    await fetch(`${API_URL}/logs`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ userId: MOCK_USER_ID, log }),
-    });
+    await addDoc(collection(db, 'users', MOCK_USER_ID, 'logs'), log);
   } catch (e) {
     console.error('Failed to save log', e);
   }

@@ -122,7 +122,7 @@ const App: React.FC = () => {
             <div>
               <h2 className="text-lg font-semibold text-gray-700 mb-4 px-2">Log Activity</h2>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {[ActivityType.WORK, ActivityType.STUDY, ActivityType.REST, ActivityType.EXERCISE, ActivityType.COMMUTE, ActivityType.SOCIAL, ActivityType.OTHER].map((type) => (
+                {[ActivityType.WORK, ActivityType.BUSINESS, ActivityType.SOCIAL, ActivityType.STUDY, ActivityType.EXERCISE, ActivityType.REST, ActivityType.COMMUTE, ActivityType.OTHER].map((type) => (
                   <StatusButton
                     key={type}
                     type={type}

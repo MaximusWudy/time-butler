@@ -1,5 +1,5 @@
 import React from 'react';
-import { Briefcase, BookOpen, Coffee, Car, Dumbbell, Users, HelpCircle, LucideIcon } from 'lucide-react';
+import { Briefcase, BookOpen, Coffee, Car, Dumbbell, Users, HelpCircle, LucideIcon, Building } from 'lucide-react';
 import { ActivityType } from '../types';
 import { ACTIVITY_COLORS } from '../constants';
 
@@ -16,6 +16,7 @@ const ICON_MAP: Record<string, LucideIcon> = {
   [ActivityType.COMMUTE]: Car,
   [ActivityType.EXERCISE]: Dumbbell,
   [ActivityType.SOCIAL]: Users,
+  [ActivityType.BUSINESS]: Building,
   [ActivityType.OTHER]: HelpCircle
 };
 

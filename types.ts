@@ -5,6 +5,7 @@ export enum ActivityType {
   COMMUTE = 'Commute',
   EXERCISE = 'Exercise',
   SOCIAL = 'Social',
+  BUSINESS = 'Business',
   OTHER = 'Other'
 }
 
